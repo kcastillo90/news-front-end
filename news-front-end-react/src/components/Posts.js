@@ -106,7 +106,7 @@ const Posts = (props) => {
 
   const handleUpdatePost = postData => {
     axios
-    put(
+    .put(
       `http://localhost:3000/${postData._id}`,
       {
         link: link,
