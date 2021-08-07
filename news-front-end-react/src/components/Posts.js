@@ -7,7 +7,7 @@ import '../style.css'                                    // import remaining sty
 const Posts = (props) => {
 
   // State Hooks
-  const [post, setPost] = useState([])                   // hook for actual post
+  const [posts, setPosts] = useState([])                 // hook for actual post
   const [link, setLink] = useState('')                   // hook for URL to article
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -21,7 +21,7 @@ const Posts = (props) => {
     axios
     .get('http://localhost:3000')
     .then((response) => {
-      setPost(response.data)
+      setPosts(response.data)
     })
   })
 
@@ -98,7 +98,7 @@ const Posts = (props) => {
       axios
         .get('http://localhost:3000')
         .then((response) => {
-          setPost(response.data)
+          setPosts(response.data)
           document.getElementById("add-post").reset()
         })
     })
@@ -120,7 +120,7 @@ const Posts = (props) => {
       axios
         .get('http://localhost:3000')
         .then((response) => {
-          setPost(response.data)
+          setPosts(response.data)
           document.getElementById('edit-post').reset()
         })
     })
@@ -133,18 +133,69 @@ const Posts = (props) => {
         axios
           .get('http://localhost:3000')
           .then((response) => {
-            setPost(response.data)
+            setPosts(response.data)
           })
       })
   }
 
   // Output
   return(
-
-    <h1>Hello World!</h1>
-
+    <main id="main-container">
+      <h1>DISCUSS</h1>
+      <section>
+        <ul id="posts">
+          {
+            posts.map((post) => {
+              return <li>
+                <img src={post.image}/>
+                <h3>{post.title}</h3>
+                <h3>{post.link}</h3>
+                {showDetails === true ? (
+                  <div id="details-and-edit">
+                    <div class="post-details">
+                      <h3>{post.author}</h3>
+                      <h3>{post.date}</h3>
+                      <h3>{post.topics}</h3>
+                    </div>
+                    <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
+                      <div class="form-details">
+                        Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
+                        Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
+                        Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
+                        Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
+                        Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
+                        Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
+                      </div>
+                      <div class="submit-delete-btns">
+                      <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
+                      <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  <h5 onClick={handleShowDetails}>Click here to show details!</h5>
+                )}
+              </li>
+            })
+          }
+        </ul>
+      </section>
+      <section id="add">
+        <h2>ADD NEW POST:</h2>
+        <form id="add-post" onSubmit={handleNewPostSubmit}>
+          <div class="form-details">
+          Title: <input name="title" type="text" onChange={handleNewTitle}/><br />
+          Link: <input name="link" type="text" onChange={handleNewLink}/><br />
+          Author: <input name="author" type="text" onChange={handleNewAuthor}/><br />
+          Date: <input name="date" type="text" onChange={handleNewDate}/><br />
+          Image URL: <input name="image" type="text" onChange={handleNewImage}/><br />
+          Topics: <input name="topics" type="text" onChange={handleNewTopics}/><br />
+          </div>
+          <input class="btn btn-success" type="submit" value="SUBMIT POST"/>
+        </form>
+      </section>
+    </main>
   )
-
 }
 
 export default Posts
