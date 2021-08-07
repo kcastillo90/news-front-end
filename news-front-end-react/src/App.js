@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import Articles from './components/Articles'
+import Posts from './components/Posts'
 
 const App = () => {
 
   // Component declarations
-  let [articles, getArticles] = useState('')
+  let [posts, getPosts] = useState('')
 
   return(
     <div class="container">
 
-      <Articles articles={articles}/>
+      <Posts posts={posts}/>
 
     </div>
 
