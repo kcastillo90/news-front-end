@@ -147,15 +147,14 @@ const Posts = (props) => {
           {
             posts.map((post) => {
               return <li>
-                <img src={post.image}/>
+                <a href={post.link} target="_blank"><img src={post.image}/></a>
                 <h3>{post.title}</h3>
-                <h3>{post.link}</h3>
                 {showDetails === true ? (
                   <div id="details-and-edit">
                     <div class="post-details">
-                      <h3>{post.author}</h3>
-                      <h3>{post.date}</h3>
-                      <h3>{post.topics}</h3>
+                      <h3>Author: {post.author}</h3>
+                      <h3>Published: {post.date}</h3>
+                      <h3>Topics Include: {post.topics}</h3>
                     </div>
                     <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
                       <div class="form-details">
