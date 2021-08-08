@@ -19,6 +19,7 @@ const Posts = (props) => {
   // useEffect
   useEffect( () => {
     axios
+    // .get('http://localhost:3000/')
     .get('https://desolate-hollows-backend.herokuapp.com/')
     .then((response) => {
       setPosts(response.data)
@@ -85,6 +86,7 @@ const Posts = (props) => {
   const handleNewPostSubmit = e => {
     e.preventDefault()
     axios.post(
+      // 'http://localhost:3000',
       'https://desolate-hollows-backend.herokuapp.com/',
       {
         link: link,
@@ -96,6 +98,7 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
+        // .get('http://localhost:3000')
         .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
@@ -107,6 +110,7 @@ const Posts = (props) => {
   const handleUpdatePost = postData => {
     axios
     .put(
+      // `http://localhost:3000/${postData._id}`,
       `https://desolate-hollows-backend.herokuapp.com/${postData._id}`,
       {
         link: link,
@@ -118,6 +122,7 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
+        // .get('http://localhost:3000')
         .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
@@ -128,9 +133,11 @@ const Posts = (props) => {
 
   const handleDelete = postData => {
     axios
+      // .delete(`http://localhost:3000/${postData._id}`)
       .delete(`https://desolate-hollows-backend.herokuapp.com/${postData._id}`)
       .then( () => {
         axios
+          // .get('http://localhost:3000')
           .get('https://desolate-hollows-backend.herokuapp.com/')
           .then((response) => {
             setPosts(response.data)
