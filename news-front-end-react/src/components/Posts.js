@@ -78,9 +78,9 @@ const Posts = (props) => {
 
   const handleShowDetails = e => {
     if (showDetails === false) {
-      setShowDetails(true)
+      setShowDetails(showDetails === true)
     } else {
-      setShowDetails(false)
+      setShowDetails(showDetails === false)
     }
   }
 
@@ -194,7 +194,7 @@ const Posts = (props) => {
                 <a href={post.link} target="_blank"><img src={post.image}/></a>
                 <div class="title-container">
                   <h3>{post.title}</h3>
-                  <button class="btn btn-secondary" onClick={handleShowDetails}>TOGGLE DETAILS</button>
+                  <button class="btn btn-secondary" onClick={ e => { handleShowDetails(post) }}>TOGGLE DETAILS</button>
                 </div>
                 {showDetails === true ? (
                   <div id="details-and-edit">
