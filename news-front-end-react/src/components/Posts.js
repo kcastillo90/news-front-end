@@ -185,14 +185,15 @@ const Posts = (props) => {
                 <a href={post.link} target="_blank"><img src={post.image}/></a>
                 <h3>{post.title}</h3>
                 <details>
-                  <summary>Click for article details</summary>
+                  <summary>Click here for article details</summary>
                   <div id="details-and-edit">
                     <div class="post-details">
                       <h3>Author: {post.author}</h3>
                       <h3>Published: {post.date}</h3>
                       <h3>Topics Include: {post.topics}</h3>
                     </div>
-                    {showEdit === true ? (
+                    <details>
+                      <summary>Show edit form:</summary>
                       <div class="edit-container">
                         <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
                           <div class="form-details">
@@ -206,15 +207,12 @@ const Posts = (props) => {
                           <div class="submit-delete-btns">
                             <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
                             <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
-                            <button class="btn btn-success" onClick={handleShowEdit}>HIDE EDIT</button>
                           </div>
                         </form>
                       </div>
-                    ) : <button class="btn btn-success" onClick={handleShowEdit}>EDIT POST</button>
-                    }
+                    </details>
                   </div>
                 </details>
-
               </li>
             })
           }
