@@ -14,7 +14,6 @@ const Posts = (props) => {
   const [date, setDate] = useState('')                   // date of article publication, not post
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
-  const [showEdit, setShowEdit] = useState(false)        // hook for hiding/showing edit form
 
   // useEffect
   useEffect( () => {
@@ -73,14 +72,6 @@ const Posts = (props) => {
 
   const handleUpdateImage = e => {
     setImage(e.target.value)
-  }
-
-  const handleShowEdit = e => {
-    if (showEdit === false) {
-      setShowEdit(true)
-    } else {
-      setShowEdit(false)
-    }
   }
 
   const handleOpenModal = e => {
