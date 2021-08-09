@@ -2,11 +2,6 @@ ul {
   list-style-type: none;
 }
 
-.title-container {
-  display: flex;
-  align-items: baseline;
-}
-
 #new-post-modal {
   background: whitesmoke;
   margin: 10vh auto auto 30vw;

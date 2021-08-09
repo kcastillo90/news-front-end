@@ -14,7 +14,6 @@ const Posts = (props) => {
   const [date, setDate] = useState('')                   // date of article publication, not post
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
-  const [showDetails, setShowDetails] = useState(false)  // hook for hiding/showing article details
   const [showEdit, setShowEdit] = useState(false)        // hook for hiding/showing edit form
 
   // useEffect
@@ -74,14 +73,6 @@ const Posts = (props) => {
 
   const handleUpdateImage = e => {
     setImage(e.target.value)
-  }
-
-  const handleShowDetails = e => {
-    if (showDetails === false) {
-      setShowDetails(showDetails === true)
-    } else {
-      setShowDetails(showDetails === false)
-    }
   }
 
   const handleShowEdit = e => {
@@ -192,40 +183,38 @@ const Posts = (props) => {
             posts.map((post) => {
               return <li>
                 <a href={post.link} target="_blank"><img src={post.image}/></a>
-                <div class="title-container">
-                  <h3>{post.title}</h3>
-                  <button class="btn btn-secondary" onClick={ e => { handleShowDetails(post) }}>TOGGLE DETAILS</button>
-                </div>
-                {showDetails === true ? (
+                <h3>{post.title}</h3>
+                <details>
+                  <summary>Click for article details</summary>
                   <div id="details-and-edit">
                     <div class="post-details">
                       <h3>Author: {post.author}</h3>
                       <h3>Published: {post.date}</h3>
                       <h3>Topics Include: {post.topics}</h3>
                     </div>
-                  {showEdit === true ? (
-                    <div class="edit-container">
-                      <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
-                        <div class="form-details">
-                          Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
-                          Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
-                          Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
-                          Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
-                          Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
-                          Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
-                        </div>
-                        <div class="submit-delete-btns">
-                          <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
-                          <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
-                          <button class="btn btn-success" onClick={handleShowEdit}>HIDE EDIT</button>
-                        </div>
-                      </form>
-                    </div>
-                  ) : <button class="btn btn-success" onClick={handleShowEdit}>EDIT POST</button>
-                  }
+                    {showEdit === true ? (
+                      <div class="edit-container">
+                        <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
+                          <div class="form-details">
+                            Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
+                            Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
+                            Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
+                            Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
+                            Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
+                            Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
+                          </div>
+                          <div class="submit-delete-btns">
+                            <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
+                            <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
+                            <button class="btn btn-success" onClick={handleShowEdit}>HIDE EDIT</button>
+                          </div>
+                        </form>
+                      </div>
+                    ) : <button class="btn btn-success" onClick={handleShowEdit}>EDIT POST</button>
+                    }
                   </div>
-                  ) : <p></p>
-                }
+                </details>
+
               </li>
             })
           }
