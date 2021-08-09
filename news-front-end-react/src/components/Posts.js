@@ -15,12 +15,13 @@ const Posts = (props) => {
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
   const [showDetails, setShowDetails] = useState(false)  // hook for hiding/showing article details
+  const [showEdit, setShowEdit] = useState(false)        // hook for hiding/showing edit form
 
   // useEffect
   useEffect( () => {
     axios
-    // .get('http://localhost:3000/')
-    .get('https://desolate-hollows-backend.herokuapp.com/')
+    .get('http://localhost:3000/')
+    // .get('https://desolate-hollows-backend.herokuapp.com/')
     .then((response) => {
       setPosts(response.data)
     })
@@ -83,11 +84,19 @@ const Posts = (props) => {
     }
   }
 
+  const handleShowEdit = e => {
+    if (showEdit === false) {
+      setShowEdit(true)
+    } else {
+      setShowEdit(false)
+    }
+  }
+
   const handleNewPostSubmit = e => {
     e.preventDefault()
     axios.post(
-      // 'http://localhost:3000',
-      'https://desolate-hollows-backend.herokuapp.com/',
+      'http://localhost:3000',
+      // 'https://desolate-hollows-backend.herokuapp.com/',
       {
         link: link,
         title: title,
@@ -98,8 +107,8 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
-        // .get('http://localhost:3000')
-        .get('https://desolate-hollows-backend.herokuapp.com/')
+        .get('http://localhost:3000')
+        // .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
           document.getElementById("add-post").reset()
@@ -110,8 +119,8 @@ const Posts = (props) => {
   const handleUpdatePost = postData => {
     axios
     .put(
-      // `http://localhost:3000/${postData._id}`,
-      `https://desolate-hollows-backend.herokuapp.com/${postData._id}`,
+      `http://localhost:3000/${postData._id}`,
+      // `https://desolate-hollows-backend.herokuapp.com/${postData._id}`,
       {
         link: link,
         title: title,
@@ -122,8 +131,8 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
-        // .get('http://localhost:3000')
-        .get('https://desolate-hollows-backend.herokuapp.com/')
+        .get('http://localhost:3000')
+        // .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
           document.getElementById('edit-post').reset()
@@ -133,12 +142,12 @@ const Posts = (props) => {
 
   const handleDelete = postData => {
     axios
-      // .delete(`http://localhost:3000/${postData._id}`)
-      .delete(`https://desolate-hollows-backend.herokuapp.com/${postData._id}`)
+      .delete(`http://localhost:3000/${postData._id}`)
+      // .delete(`https://desolate-hollows-backend.herokuapp.com/${postData._id}`)
       .then( () => {
         axios
-          // .get('http://localhost:3000')
-          .get('https://desolate-hollows-backend.herokuapp.com/')
+          .get('http://localhost:3000')
+          // .get('https://desolate-hollows-backend.herokuapp.com/')
           .then((response) => {
             setPosts(response.data)
           })
@@ -155,7 +164,10 @@ const Posts = (props) => {
             posts.map((post) => {
               return <li>
                 <a href={post.link} target="_blank"><img src={post.image}/></a>
-                <h3>{post.title}</h3>
+                <div class="title-container">
+                  <h3>{post.title}</h3>
+                  <button class="btn btn-secondary" onClick={handleShowDetails}>TOGGLE DETAILS</button>
+                </div>
                 {showDetails === true ? (
                   <div id="details-and-edit">
                     <div class="post-details">
@@ -163,24 +175,29 @@ const Posts = (props) => {
                       <h3>Published: {post.date}</h3>
                       <h3>Topics Include: {post.topics}</h3>
                     </div>
-                    <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
-                      <div class="form-details">
-                        Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
-                        Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
-                        Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
-                        Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
-                        Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
-                        Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
-                      </div>
-                      <div class="submit-delete-btns">
-                      <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
-                      <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
-                      </div>
-                    </form>
+                  {showEdit === true ? (
+                    <div class="edit-container">
+                      <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
+                        <div class="form-details">
+                          Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
+                          Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
+                          Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
+                          Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
+                          Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
+                          Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
+                        </div>
+                        <div class="submit-delete-btns">
+                          <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
+                          <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
+                          <button class="btn btn-success" onClick={handleShowEdit}>HIDE EDIT</button>
+                        </div>
+                      </form>
+                    </div>
+                  ) : <button class="btn btn-success" onClick={handleShowEdit}>EDIT POST</button>
+                  }
                   </div>
-                ) : (
-                  <h5 onClick={handleShowDetails}>Click here to show details!</h5>
-                )}
+                  ) : <p></p>
+                }
               </li>
             })
           }
