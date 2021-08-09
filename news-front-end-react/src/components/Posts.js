@@ -92,6 +92,16 @@ const Posts = (props) => {
     }
   }
 
+  const handleOpenModal = e => {
+    let modal = document.getElementById("new-post-modal")
+    modal.style.display = "block"
+    window.onclick = function(e) {
+      if(e.target == modal) {
+        modal.style.display = "none"
+      }
+    }
+  }
+
   const handleNewPostSubmit = e => {
     e.preventDefault()
     axios.post(
@@ -112,6 +122,7 @@ const Posts = (props) => {
         .then((response) => {
           setPosts(response.data)
           document.getElementById("add-post").reset()
+          document.getElementById("new-post-modal").style.display="none"
         })
     })
   }
@@ -158,6 +169,23 @@ const Posts = (props) => {
   return(
     <main id="main-container">
       <h1>DISCUSS</h1>
+      <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>
+      <div id="new-post-modal" class="modal">
+        <section id="add">
+          <h2>ADD NEW POST:</h2>
+          <form id="add-post" onSubmit={handleNewPostSubmit}>
+            <div class="form-details">
+            Title: <input name="title" type="text" onChange={handleNewTitle}/><br />
+            Link: <input name="link" type="text" onChange={handleNewLink}/><br />
+            Author: <input name="author" type="text" onChange={handleNewAuthor}/><br />
+            Date: <input name="date" type="text" onChange={handleNewDate}/><br />
+            Image URL: <input name="image" type="text" onChange={handleNewImage}/><br />
+            Topics: <input name="topics" type="text" onChange={handleNewTopics}/><br />
+            </div>
+            <input class="btn btn-success" type="submit" value="SUBMIT POST"/>
+          </form>
+        </section>
+      </div>
       <section>
         <ul id="posts">
           {
@@ -203,20 +231,7 @@ const Posts = (props) => {
           }
         </ul>
       </section>
-      <section id="add">
-        <h2>ADD NEW POST:</h2>
-        <form id="add-post" onSubmit={handleNewPostSubmit}>
-          <div class="form-details">
-          Title: <input name="title" type="text" onChange={handleNewTitle}/><br />
-          Link: <input name="link" type="text" onChange={handleNewLink}/><br />
-          Author: <input name="author" type="text" onChange={handleNewAuthor}/><br />
-          Date: <input name="date" type="text" onChange={handleNewDate}/><br />
-          Image URL: <input name="image" type="text" onChange={handleNewImage}/><br />
-          Topics: <input name="topics" type="text" onChange={handleNewTopics}/><br />
-          </div>
-          <input class="btn btn-success" type="submit" value="SUBMIT POST"/>
-        </form>
-      </section>
+
     </main>
   )
 }
