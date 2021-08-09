@@ -6,3 +6,18 @@ ul {
   display: flex;
   align-items: baseline;
 }
+
+#new-post-modal {
+  background: whitesmoke;
+  margin: 10vh auto auto 30vw;
+  width: 40%;
+  height: 50%;
+  padding: 10px;
+  border: 2px solid gray;
+}
+
+#add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
