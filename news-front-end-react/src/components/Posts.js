@@ -150,7 +150,7 @@ const Posts = (props) => {
   // Output
   return(
     <main id="main-container">
-      <h1>DISCUSS</h1>
+      <h1 id="page-title">DISCUSS</h1>
       <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>
       <div id="new-post-modal" class="modal">
         <section id="add">
@@ -173,7 +173,7 @@ const Posts = (props) => {
           {
             posts.map((post) => {
               return <li>
-                <a href={post.link} target="_blank"><img src={post.image}/></a>
+                <a href={post.link} target="_blank"><img class="article-img" src={post.image}/></a>
                 <h3>{post.title}</h3>
                 <details>
                   <summary>Click here for article details</summary>
