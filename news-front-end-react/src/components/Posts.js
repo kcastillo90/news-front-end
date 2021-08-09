@@ -19,8 +19,8 @@ const Posts = (props) => {
   // useEffect
   useEffect( () => {
     axios
-    // .get('http://localhost:3000/')
-    .get('https://desolate-hollows-backend.herokuapp.com/')
+    .get('http://localhost:3000/')
+    // .get('https://desolate-hollows-backend.herokuapp.com/')
     .then((response) => {
       setPosts(response.data)
     })
@@ -86,8 +86,8 @@ const Posts = (props) => {
   const handleNewPostSubmit = e => {
     e.preventDefault()
     axios.post(
-      // 'http://localhost:3000',
-      'https://desolate-hollows-backend.herokuapp.com/',
+      'http://localhost:3000',
+      // 'https://desolate-hollows-backend.herokuapp.com/',
       {
         link: link,
         title: title,
@@ -98,8 +98,8 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
-        // .get('http://localhost:3000')
-        .get('https://desolate-hollows-backend.herokuapp.com/')
+        .get('http://localhost:3000')
+        // .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
           document.getElementById("add-post").reset()
@@ -110,8 +110,8 @@ const Posts = (props) => {
   const handleUpdatePost = postData => {
     axios
     .put(
-      // `http://localhost:3000/${postData._id}`,
-      `https://desolate-hollows-backend.herokuapp.com/${postData._id}`,
+      `http://localhost:3000/${postData._id}`,
+      // `https://desolate-hollows-backend.herokuapp.com/${postData._id}`,
       {
         link: link,
         title: title,
@@ -122,8 +122,8 @@ const Posts = (props) => {
       }
     ).then( () => {
       axios
-        // .get('http://localhost:3000')
-        .get('https://desolate-hollows-backend.herokuapp.com/')
+        .get('http://localhost:3000')
+        // .get('https://desolate-hollows-backend.herokuapp.com/')
         .then((response) => {
           setPosts(response.data)
           document.getElementById('edit-post').reset()
@@ -133,12 +133,12 @@ const Posts = (props) => {
 
   const handleDelete = postData => {
     axios
-      // .delete(`http://localhost:3000/${postData._id}`)
-      .delete(`https://desolate-hollows-backend.herokuapp.com/${postData._id}`)
+      .delete(`http://localhost:3000/${postData._id}`)
+      // .delete(`https://desolate-hollows-backend.herokuapp.com/${postData._id}`)
       .then( () => {
         axios
-          // .get('http://localhost:3000')
-          .get('https://desolate-hollows-backend.herokuapp.com/')
+          .get('http://localhost:3000')
+          // .get('https://desolate-hollows-backend.herokuapp.com/')
           .then((response) => {
             setPosts(response.data)
           })
@@ -155,7 +155,10 @@ const Posts = (props) => {
             posts.map((post) => {
               return <li>
                 <a href={post.link} target="_blank"><img src={post.image}/></a>
-                <h3>{post.title}</h3>
+                <div class="title-container">
+                  <h3 onClick={handleShowDetails}>{post.title}</h3>
+                  <p class="click-title">(click title to show details)</p>
+                </div>
                 {showDetails === true ? (
                   <div id="details-and-edit">
                     <div class="post-details">
@@ -178,9 +181,8 @@ const Posts = (props) => {
                       </div>
                     </form>
                   </div>
-                ) : (
-                  <h5 onClick={handleShowDetails}>Click here to show details!</h5>
-                )}
+                ) : <h3></h3>
+                }
               </li>
             })
           }
