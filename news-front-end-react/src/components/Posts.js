@@ -154,8 +154,8 @@ const Posts = (props) => {
   // useEffect
   useEffect( () => {
     axios
-    .get('http://localhost:3000/')
-    // .get('https://desolate-hollows-backend.herokuapp.com/')
+    // .get('http://localhost:3000/')
+    .get('https://desolate-hollows-backend.herokuapp.com/')
     .then((response) => {
       setPosts(response.data)
     })
