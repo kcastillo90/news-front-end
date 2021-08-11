@@ -7,10 +7,6 @@ import '../style.css'                                    // import remaining sty
 const Posts = (props) => {
 
   // State Hooks
-  const [user, setUser] = useState({})                   // hook for user creation
-  const [username, setUserName] = useState('')           // hook for username creation
-  const [password, setUserPassword] = useState('')       // hook for password creation
-  // session hook goes here
   const [posts, setPosts] = useState([])                 // hook for actual post
   const [link, setLink] = useState('')                   // hook for URL to article
   const [title, setTitle] = useState('')
@@ -29,24 +25,7 @@ const Posts = (props) => {
     })
   })
 
-  useEffect( () => {
-    axios
-    .get('http://localhost:3000/users')
-    // .get('https://desolate-hollows-backend.herokuapp.com/users')
-    .then((response) => {
-      setUser(response.data)
-    })
-  })
-
   // Handlers
-  const handleNewUsername = e => {
-    setUserName(e.target.value)
-  }
-
-  const handleNewUserPW = e => {
-    setUserPassword(e.target.value)
-  }
-
   const handleNewLink = e => {
     setLink(e.target.value)
   }
@@ -103,37 +82,6 @@ const Posts = (props) => {
   const handleClosePostModal = e => {
     let modal = document.getElementById("new-post-modal")
     modal.style.display = "none"
-  }
-
-  const handleOpenUserModal = e => {
-    let modal = document.getElementById("new-user-modal")
-    modal.style.display = "block"
-  }
-
-  const handleCloseUserModal = e => {
-    let modal = document.getElementById("new-user-modal")
-    modal.style.display = "none"
-  }
-
-  const handleNewUserSubmit = e => {
-    e.preventDefault()
-    axios.post(
-      'http://localhost:3000/users',
-      // 'https://desolate-hollows-backend.herokuapp.com/users',
-      {
-        username: username,
-        password: password,
-      }
-    ).then( () => {
-      axios
-      .get('http://localhost:3000/users')
-      // .get('https://desolate-hollows-backend.herokuapp.com/users')
-      .then((response) => {
-        setUser(response.data)
-        document.getElementById("add-user").reset()
-        document.getElementById("new-user-modal").style.display="none"
-      })
-    })
   }
 
   const handleNewPostSubmit = e => {
@@ -202,7 +150,6 @@ const Posts = (props) => {
   // Output
   return(
     <main id="main-container">
-      <h1 id="page-title">DISCUSS</h1>
       <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>
       <div id="new-post-modal" class="modal">
         <section class="add">
@@ -218,20 +165,6 @@ const Posts = (props) => {
             Topics: <input name="topics" type="text" onChange={handleNewTopics}/><br />
             </div>
             <input class="btn btn-success" type="submit" value="SUBMIT POST"/>
-          </form>
-        </section>
-      </div>
-      <button id="new-user" class="btn btn-primary" onClick={handleOpenUserModal}>NEW USER</button>
-      <div id="new-user-modal" class="modal">
-        <section class="add">
-          <h2>ADD NEW USER:</h2>
-          <button class="btn btn-danger" onClick={handleCloseUserModal}>CLOSE</button>
-          <form id="add-user" onSubmit={handleNewUserSubmit}>
-            <div class="form-details">
-            Username: <input name="username" type="text" onChange={handleNewUsername}/><br />
-            Password: <input name="password" type="text" onChange={handleNewUserPW}/><br />
-            </div>
-            <input class="btn btn-success" type="submit" value="SUBMIT NEW USER"/>
           </form>
         </section>
       </div>
