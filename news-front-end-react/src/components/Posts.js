@@ -8,8 +8,8 @@ const Posts = (props) => {
 
   // State Hooks
   const [user, setUser] = useState({})                   // hook for user creation
-  const [username, setUsername] = ('')                   // hook for username creation
-  const [password, setUserPassword] = ('')           // hook for password creation
+  const [username, setUserName] = useState('')           // hook for username creation
+  const [password, setUserPassword] = useState('')       // hook for password creation
   // session hook goes here
   const [posts, setPosts] = useState([])                 // hook for actual post
   const [link, setLink] = useState('')                   // hook for URL to article
@@ -29,9 +29,18 @@ const Posts = (props) => {
     })
   })
 
+  useEffect( () => {
+    axios
+    .get('http://localhost:3000/users')
+    // .get('https://desolate-hollows-backend.herokuapp.com/users')
+    .then((response) => {
+      setUser(response.data)
+    })
+  })
+
   // Handlers
   const handleNewUsername = e => {
-    setUsername(e.target.value)
+    setUserName(e.target.value)
   }
 
   const handleNewUserPW = e => {
@@ -217,9 +226,9 @@ const Posts = (props) => {
         <section class="add">
           <h2>ADD NEW USER:</h2>
           <button class="btn btn-danger" onClick={handleCloseUserModal}>CLOSE</button>
-          <form id="add-post" onSubmit={handleNewUserSubmit}>
+          <form id="add-user" onSubmit={handleNewUserSubmit}>
             <div class="form-details">
-            Usename: <input name="username" type="text" onChange={handleNewUsername}/><br />
+            Username: <input name="username" type="text" onChange={handleNewUsername}/><br />
             Password: <input name="password" type="text" onChange={handleNewUserPW}/><br />
             </div>
             <input class="btn btn-success" type="submit" value="SUBMIT NEW USER"/>
