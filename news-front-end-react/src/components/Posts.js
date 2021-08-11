@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'                                // npm i axios for this to function
+import { useAuth0 } from "@auth0/auth0-react"
 import 'bootstrap/dist/css/bootstrap.min.css'            // npm i react-bootstrap@next bootstrap@5.0.2 for Bootstrap to work
 import Button from 'react-bootstrap/Button'              // imports Bootstrap button features
 import '../style.css'                                    // import remaining style rules
@@ -15,15 +16,8 @@ const Posts = (props) => {
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
 
-  // useEffect
-  useEffect( () => {
-    axios
-    .get('http://localhost:3000/')
-    // .get('https://desolate-hollows-backend.herokuapp.com/')
-    .then((response) => {
-      setPosts(response.data)
-    })
-  })
+  const authentication = useAuth0()
+  console.log(authentication.isAuthenticated)
 
   // Handlers
   const handleNewLink = e => {
@@ -147,10 +141,23 @@ const Posts = (props) => {
       })
   }
 
+  // useEffect
+  useEffect( () => {
+    axios
+    .get('http://localhost:3000/')
+    // .get('https://desolate-hollows-backend.herokuapp.com/')
+    .then((response) => {
+      setPosts(response.data)
+    })
+  }, [])
+
   // Output
   return(
     <main id="main-container">
-      <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>
+      {authentication.isAuthenticated === true ? (
+        <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>)
+      : (<h3>Sign-in to contribute!</h3>
+      )}
       <div id="new-post-modal" class="modal">
         <section class="add">
           <h2>ADD NEW POST:</h2>
@@ -183,25 +190,30 @@ const Posts = (props) => {
                       <h3>Published: {post.date}</h3>
                       <h3>Topics Include: {post.topics}</h3>
                     </div>
-                    <details>
-                      <summary>Show edit form:</summary>
-                      <div class="edit-container">
-                        <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
-                          <div class="form-details">
-                            Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
-                            Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
-                            Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
-                            Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
-                            Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
-                            Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
-                          </div>
-                          <div class="submit-delete-btns">
-                            <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
-                            <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
-                          </div>
-                        </form>
-                      </div>
-                    </details>
+                    {authentication.isAuthenticated === true ? (
+                      <details>
+                        <summary>Show edit form:</summary>
+                        <div class="edit-container">
+                          <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
+                            <div class="form-details">
+                              Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
+                              Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
+                              Author: <input name="author" type="text" onChange={handleUpdateAuthor}/><br />
+                              Date: <input name="date" type="text" onChange={handleUpdateDate}/><br />
+                              Image URL: <input name="image" type="text" onChange={handleUpdateImage}/><br />
+                              Topics: <input name="topics" type="text" onChange={handleUpdateTopics}/><br />
+                            </div>
+                            <div class="submit-delete-btns">
+                              <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
+                              <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
+                            </div>
+                          </form>
+                        </div>
+                      </details>
+                    ) : (
+                      <h6>Sign in to edit posts</h6>
+                    )}
+
                   </div>
                 </details>
               </li>
