@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'                                // npm i axios for this to function
 import { useAuth0 } from "@auth0/auth0-react"
 import 'bootstrap/dist/css/bootstrap.min.css'            // npm i react-bootstrap@next bootstrap@5.0.2 for Bootstrap to work
-import Button from 'react-bootstrap/Button'              // imports Bootstrap button features
 import '../style.css'                                    // import remaining style rules
 
 const Posts = (props) => {
@@ -15,10 +14,10 @@ const Posts = (props) => {
   const [date, setDate] = useState('')                   // date of article publication, not post
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
+  const [comment_IDs, setCommentIDs] = useState([])
 
 
   const authentication = useAuth0()
-  console.log(authentication.isAuthenticated)
 
   // useEffect
   useEffect( () => {
@@ -190,7 +189,7 @@ const Posts = (props) => {
         <ul id="posts">
           {
             posts.map((post) => {
-              return <li>
+              return <li key={post._id}>
                 <a href={post.link} target="_blank"><img class="article-img" src={post.image}/></a>
                 <h3>{post.title}</h3>
                 <details>
@@ -205,7 +204,9 @@ const Posts = (props) => {
                       <details>
                         <summary>Show edit form:</summary>
                         <div class="edit-container">
-                          <form id="edit-post" onSubmit= { e => { handleUpdatePost(post) }}>
+                          <form id="edit-post" onSubmit= { e => {
+                              e.preventDefault()
+                              handleUpdatePost(post) }}>
                             <div class="form-details">
                               Title: <input name="title" type="text" onChange={handleUpdateTitle}/><br />
                               Link: <input name="link" type="text" onChange={handleUpdateLink}/><br />
@@ -216,7 +217,10 @@ const Posts = (props) => {
                             </div>
                             <div class="submit-delete-btns">
                               <input class="btn btn-secondary" type="submit" value="SUBMIT EDITS"/>
-                              <button class="btn btn-danger" onClick={ e => { handleDelete(post) }}>DELETE POST</button>
+                              <button class="btn btn-danger" onClick={ e => {
+                                e.preventDefault()
+                                handleDelete(post) }}
+                                >DELETE POST</button>
                             </div>
                           </form>
                         </div>
