@@ -181,7 +181,7 @@ const Posts = (props) => {
             Image URL: <input name="image" type="text" onChange={handleNewImage}/><br />
             Topics: <input name="topics" type="text" onChange={handleNewTopics}/><br />
             </div>
-            <input class="btn btn-success" type="submit" value="SUBMIT POST"/>
+            <input id="post-submit" class="btn btn-success" type="submit" value="SUBMIT POST"/>
           </form>
         </section>
       </div>
@@ -191,7 +191,7 @@ const Posts = (props) => {
             posts.map((post) => {
               return <li key={post._id}>
                 <a href={post.link} target="_blank"><img class="article-img" src={post.image}/></a>
-                <h3>{post.title}</h3>
+                <h3 class="post-title">{post.title}</h3>
                 <details>
                   <summary>Click here for article details</summary>
                   <div id="details-and-edit">
