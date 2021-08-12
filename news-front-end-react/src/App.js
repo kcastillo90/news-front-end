@@ -12,7 +12,8 @@ const App = () => {
 
   return(
       <div class="container">
-        <h1 id="page-title">DISCUSS</h1>
+        <h1 id="page-title">NEWS POST</h1>
+        <h3 id="tagline">Post your favorite news here!</h3>
         <Navbar navbar={navbar}/>
         <Posts posts={posts}/>
       </div>

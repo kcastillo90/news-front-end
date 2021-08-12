@@ -1,6 +1,20 @@
+.container {
+  background-color: #F9F4ED;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: auto;
+  width: auto;
+  font-family: 'Newsreader', serif;
+}
+
 #page-title {
+  font-size: 10vh;
   text-align: center;
-  margin-bottom: 30px;
+}
+
+#tagline {
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 #main-container {
@@ -22,10 +36,6 @@
 
 #new-post {
   margin: 20px auto;
-}
-
-#page-title {
-  font-size: 10vh;
 }
 
 ul {
@@ -69,4 +79,9 @@ li {
 
 input[type="text"] {
   width: 100%;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
 }
