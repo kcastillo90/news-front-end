@@ -14,22 +14,18 @@ const Posts = (props) => {
   const [date, setDate] = useState('')                   // date of article publication, not post
   const [topics, setTopics] = useState('')
   const [image, setImage] = useState('')                 // URL for relevant article image
-  const [comment_IDs, setCommentIDs] = useState([])
-
+  const [comments, setComments] = useState([])
+  const [comment, setComment] = useState('')
+  const [body, setBody] = useState('')
+  const [user, setUser] = useState('')
 
   const authentication = useAuth0()
 
-  // useEffect
-  useEffect( () => {
-    axios
-    // .get('http://localhost:3000/')
-    .get('https://desolate-hollows-backend.herokuapp.com/')
-    .then((response) => {
-      setPosts(response.data)
-    })
-  })
-
   // Handlers
+  const handleSetUser = e => {
+    setUser(authentication.user.given_name)
+  }
+
   const handleNewLink = e => {
     setLink(e.target.value)
   }
@@ -52,6 +48,10 @@ const Posts = (props) => {
 
   const handleNewImage = e => {
     setImage(e.target.value)
+  }
+
+  const handleNewCommentBody = e => {
+    setBody(e.target.value)
   }
 
   const handleUpdateLink = e => {
@@ -151,6 +151,30 @@ const Posts = (props) => {
       })
   }
 
+  const handleNewComment = comment => {
+    axios
+    .put(
+      // `http://localhost:3000/${comment._id}`,
+      `https://desolate-hollows-backend.herokuapp.com/${comment._id}`,
+      {
+        // link: link,
+        // title: title,
+        // author: author,
+        // date: date,
+        // topics: topics,
+        // image: image,
+        comments: body
+      }
+    ).then( () => {
+      axios
+        // .get('http://localhost:3000')
+        .get('https://desolate-hollows-backend.herokuapp.com/')
+        .then((response) => {
+          setComment(response.data)
+        })
+    })
+    }
+
   // useEffect
   useEffect( () => {
     axios
@@ -164,8 +188,11 @@ const Posts = (props) => {
   // Output
   return(
     <main id="main-container">
+
       {authentication.isAuthenticated === true ? (
+
         <button id="new-post" class="btn btn-primary" onClick={handleOpenModal}>NEW POST</button>)
+
       : (<h3>Sign-in to contribute!</h3>
       )}
       <div id="new-post-modal" class="modal">
@@ -185,13 +212,17 @@ const Posts = (props) => {
           </form>
         </section>
       </div>
+
       <section>
         <ul id="posts">
           {
             posts.map((post) => {
               return <li key={post._id}>
+
                 <a href={post.link} target="_blank"><img class="article-img" src={post.image}/></a>
+
                 <h3>{post.title}</h3>
+
                 <details>
                   <summary>Click here for article details</summary>
                   <div id="details-and-edit">
@@ -200,7 +231,24 @@ const Posts = (props) => {
                       <h3>Published: {post.date}</h3>
                       <h3>Topics Include: {post.topics}</h3>
                     </div>
+
+                    {comments.map(  (comment) => {
+                      return <li key={comment._id}>
+                      <h5>{comment.body}</h5>
+                      </li>
+                    })}
+
+                    <div class="comment-contiainer">
+                      <form class="comment-form" onSubmit= { (e) => {
+                        e.preventDefault()
+                        handleNewComment(post) }}>
+                        <label for="comment">Leave a comment:</label>
+                        <textarea id="comment" name="comment" rows="2" cols="50" onChange={handleNewCommentBody}></textarea>
+                        <input class="btn btn-secondary" type="submit" value="SUBMIT COMMENT"/>
+                      </form>
+                    </div>
                     {authentication.isAuthenticated === true ? (
+
                       <details>
                         <summary>Show edit form:</summary>
                         <div class="edit-container">
@@ -228,7 +276,6 @@ const Posts = (props) => {
                     ) : (
                       <h6>Sign in to edit posts</h6>
                     )}
-
                   </div>
                 </details>
               </li>

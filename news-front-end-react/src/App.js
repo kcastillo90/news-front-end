@@ -12,7 +12,7 @@ const App = () => {
 
   return(
       <div class="container">
-        <h1 id="page-title">DISCUSS</h1>
+        <h1 id="page-title">NEWS</h1>
         <Navbar navbar={navbar}/>
         <Posts posts={posts}/>
       </div>
